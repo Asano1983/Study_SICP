@@ -70,8 +70,16 @@ define‚Í“ÁŽêŒ`Ž®‚Å‚ ‚Á‚ÄA‰‰ŽZŽq‚Å‚Í‚È‚¢‚Ì‚ÅA
 ‚Ì‚æ‚¤‚Éƒ†[ƒU[’è‹`‚³‚ê‚½‰‰ŽZŽq‚ð‡¬Žè‘±‚«‚Æ‚¢‚¤B
 iˆê“x’è‹`‚µ‚Ä‚µ‚Ü‚¦‚Îj‡¬Žè‘±‚«‚Æ‘g‚Ýž‚Ý‚ÌŽè‘±‚«‚ð‹æ•Ê‚·‚éˆÓ–¡‚Í‚È‚³‚»‚¤‚Å‚ ‚éB
 
-Haskell‚Å‚Í”‚Í0ˆø”ŠÖ”‚Å‚ ‚Á‚ÄA”‚ÆŠÖ”‚ð‹æ•Ê‚µ‚È‚©‚Á‚½‚ªAScheme‚à“¯‚¶‚ÆŽv‚Á‚Ä‚æ‚¢‚Ì‚¾‚ë‚¤‚©B
-Common Lisp‚Í”‚ÆŠÖ”‚Í–¼‘O‹óŠÔ‚ªˆá‚¤iLisp-2j‚ªAScheme‚Í–¼‘O‹óŠÔ‚ª“¯‚¶iLisp-1jB
+Scheme‚Í”‚ÆŠÖ”‚Ì–¼‘O‹óŠÔ‚ª“¯‚¶‚Å‚ ‚é‚ªiLisp-1jA”‚Æ0ˆø”ŠÖ”‚Í‹æ•Ê‚³‚ê‚Ä‚¢‚é‚æ‚¤‚Å‚ ‚éB
+
+```
+> (define a 2)
+> a
+2
+> (define (f) 2)
+> f
+#<procedure:f>
+```
 
 ### 1.1.5 Žè‘±‚«ì—p‚Ì’uŠ·‚¦ƒ‚ƒfƒ‹
 
@@ -95,7 +103,6 @@ Haskell‚Ì•]‰¿í—ª‚Í•K—vŒÄ‚Ñicall by needj‚ÆŒ¾‚Á‚ÄAˆø”•]‰¿‚ðƒƒ‚‰»‚µ‚Ä’u‚«A“
 
 condAifAandAorAnot‚È‚Ç‚ÌÐ‰îB
 condAifAandAor‚Í’Z—•]‰¿‚ª•K—v‚È‚½‚ß“ÁŽêŒ`Ž®‚Å‚ ‚é‚ªAnot‚Í’Êí‚Ì‰‰ŽZŽq‚Å‚ ‚éB
-
 
 #### –â‘è1.1
 
