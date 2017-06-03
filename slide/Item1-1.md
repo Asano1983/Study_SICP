@@ -148,3 +148,126 @@ Prelude> test 0 p
 
 ちゃんと停止する。
 
+### 1.1.7 Newton法による平方根
+
+再帰を使ってNewton法を実装する話。
+本文には「ループ構文がなくても書けるからすごい！」って書いてあるが、再帰はループより強力なので当たり前な気がする。
+
+```Scheme
+(define (square x) (* x x))
+
+(define (sqrt-iter guess x)
+  (if (good-enough? guess x)
+      guess
+      (sqrt-iter (improve guess x)
+                 x)))
+
+(define (improve guess x)
+  (average guess (/ x guess)))
+
+(define (average x y)
+  (/ (+ x y) 2))
+
+(define (good-enough? guess x)
+  (< (abs (- (square guess) x)) 0.001))
+
+(define (my-sqrt x)
+  (sqrt-iter 1.0 x))
+```
+
+ここでは実装用関数（sqrt-iterなど）も公開されてしまっているが、次の1.1.8で実装用関数を隠蔽する。
+
+#### 問題1.6
+
+ifはなぜ特殊形式なのかという話。
+Schemeは正格評価（値呼び）なので、通常の関数として定義してしまうと、
+常にthen節とelse節の両方を評価してしまう。
+例えば、上のsqrt-iterのifが通常の関数ならば、計算が止まらなくなってしまう。
+
+#### 問題1.7
+
+上のgood-enough?はxが小さい数の時には困るが、非常に大きな数であっても困る。
+
+```
+> (my-sqrt 1e-10)
+0.03125000106562499
+```
+
+小さいときは誤差の評価自体が不適切である。
+
+```
+> (my-sqrt 1e100)
+```
+
+非常に大きいときは、丸め誤差のため計算が止まらなくなってしまう。
+
+### 1.1.8 ブラックボックス抽象としての手続き
+
+自由変数と束縛変数の話がちょろっと書いてある。
+束縛変数（ローカル変数）の名前をリネームしても意味は変わらない。
+変数が束縛されている範囲をスコープという、など。
+α変換の厳密な定義について書いてあるわけではない。
+
+```Scheme
+(define (square x) (* x x))
+
+(define (average x y)
+  (/ (+ x y) 2))
+
+(define (my-sqrt x)
+  (define (good-enough? guess x)
+    (< (abs (- (square guess) x)) 0.001))
+  (define (improve guess x)
+    (average guess (/ x guess)))
+  (define (sqrt-iter guess x)
+    (if (good-enough? guess x)
+        guess
+        (sqrt-iter (improve guess x)
+                   x)))
+  (sqrt-iter 1.0 x))
+```
+
+呼び出し側に見せる必要がない関数はブロック構造を使って隠蔽しよう。
+
+レキシカル・スコーピングという用語は出てくるが、ダイナミック・スコーピングの話は無し。
+ダイナミック・スコーピングは忘れよう（今となってはEmacs Lispぐらいなものだろう）。
+
+余談：
+C++のような言語でもラムダ式を外側の変数に代入するとスコープが複雑になる。
+
+```C++
+#include <functional>
+
+int main()
+{
+    std::function<int(int)> func;
+    
+    {
+        int a = 3;
+        func = [a](int x){return a * x;};
+    }
+    
+    return func(5);
+}
+```
+
+これはちゃんと15を戻してくれるが（funcが持つaはコピーで作られるので）
+
+```
+#include <functional>
+
+int main()
+{
+    std::function<int(int)> func;
+    
+    {
+        int a = 3;
+        func = [&a](int x){return a * x;};
+    }
+    
+    return func(5);
+}
+```
+
+これはfuncが持つ参照がdangleになってしまうので未定義動作。
+
